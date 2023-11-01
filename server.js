@@ -8,8 +8,12 @@ const apiRoutes         = require('./routes/api.js');
 const fccTestingRoutes  = require('./routes/fcctesting.js');
 const runner            = require('./test-runner');
 const helmet = require('helmet');
-
+const mongoose = require('mongoose');
 const ninetyDaysInSeconds = 90 * 24 * 60 * 60;
+
+
+const app = express();
+
 app.use(helmet({
   frameguard: {         // configure
     action: 'deny'
@@ -25,9 +29,17 @@ app.use(helmet({
     maxAge: ninetyDaysInSeconds,
     force: true,
   }
-}))
+}));
 
-const app = express();
+mongoose.connect(
+  process.env['MONGO_URI'],
+  { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(()=>{
+      console.log("We are connected to mongo db")
+    })
+    .catch((err) => {
+      console.log("Error unable to connect to mongo db", err);
+    });
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
