@@ -7,6 +7,25 @@ const cors        = require('cors');
 const apiRoutes         = require('./routes/api.js');
 const fccTestingRoutes  = require('./routes/fcctesting.js');
 const runner            = require('./test-runner');
+const helmet = require('helmet');
+
+const ninetyDaysInSeconds = 90 * 24 * 60 * 60;
+app.use(helmet({
+  frameguard: {         // configure
+    action: 'deny'
+  },
+  contentSecurityPolicy: {    // enable and configure
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'"],
+    }
+  },
+  dnsPrefetchControl: false,     // disable,
+  strictTransportSecurity: {
+    maxAge: ninetyDaysInSeconds,
+    force: true,
+  }
+}))
 
 const app = express();
 
