@@ -20,14 +20,18 @@ app.use(helmet({
   },
   contentSecurityPolicy: {    // enable and configure
     directives: {
-      defaultSrc: ["'self'"],
+      defaultSrc: ["'none'"],
       styleSrc: ["'self'"],
       scriptSrc: ["'self'"],
+      FormAction: ["'self'"],
+      baseUri: ["'self'"],
     }
   },
   dnsPrefetchControl: false,     // disable,
+  xFrameOptions: { action: "deny" },
   strictTransportSecurity: {
     maxAge: ninetyDaysInSeconds,
+    includeSubDomains: true,
     force: true,
   }
 }));
