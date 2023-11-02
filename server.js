@@ -25,6 +25,7 @@ app.use(helmet({
       scriptSrc: ["'self'"],
       FormAction: ["'self'"],
       baseUri: ["'self'"],
+      frameAncestors: ["'self'"]
     }
   },
   dnsPrefetchControl: false,     // disable,
